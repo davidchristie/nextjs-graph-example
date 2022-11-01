@@ -1,8 +1,21 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import { Graph } from "../components/graph";
+import styles from "../styles/Home.module.css";
+import { Edge, Node } from "../types/graph";
+import { createMinimumSpanningTree } from "../utilities/graph/minimum-spanning-tree";
+
+const numberOfNodes = 100;
 
 export default function Home() {
+  const nodes: Node[] = Array(numberOfNodes)
+    .fill(null)
+    .map(() => ({
+      x: Math.random(),
+      y: Math.random(),
+    }));
+  const edges: Edge[] = createMinimumSpanningTree(nodes);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,12 +25,11 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <h1 className={styles.title}>Minimum Spanning Tree</h1>
+        <Graph nodes={nodes} edges={edges} />
 
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
@@ -60,12 +72,12 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
+  );
 }
